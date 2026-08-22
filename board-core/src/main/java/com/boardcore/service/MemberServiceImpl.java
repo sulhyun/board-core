@@ -1,8 +1,46 @@
 package com.boardcore.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.boardcore.dao.MemberDAO;
+import com.boardcore.domain.Member;
+import com.boardcore.dto.Signup;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
+@AllArgsConstructor
 public class MemberServiceImpl implements MemberService {
+	
+	private final MemberDAO memberDao;
+	private final PasswordEncoder passwordEncoder;
+	
+	@Override
+	public boolean signup(Signup form) {
+		if (form == null) {
+			return false;
+		}
+		
+		String encPw = passwordEncoder.encode(form.getPw());
+		form.setPw(encPw);
+		
+		Member member = new Member();
+		member.setMe_id(form.getId());
+		member.setMe_pw(encPw);
+		member.setMe_email(form.getEmail());
+		member.setMe_authority("USER");
+		member.setMe_ms_name("사용");
+		
+		try {
+			// 아이디 중복, 이메일 중복일 때 예외 발생
+			return memberDao.save(member);		
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return false;
+		}
+	}
 
 }

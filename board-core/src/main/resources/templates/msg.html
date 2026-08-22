@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<script th:inline="javascript">
+		let msg = /*[[${msg}]]*/'';
+		let url = /*[[@{${url}}]]*/'';
+		let type = /*[[${windows} ? windows : '']]*/ '';
+		
+		if (msg != "") {
+			alert(msg);
+		}
+		
+		if (type != "") {
+			window.close();
+		} else {
+			let url = /*[[@{${url}}]]*/ '';
+			location.href = url;
+		}
+	</script>
+</body>
+</html>

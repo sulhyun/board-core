@@ -30,15 +30,28 @@ public class MemberController {
 	}
 	
 	@PostMapping("/signup")
-	public String signup(@Validated @ModelAttribute("member") Signup member, BindingResult bindingResult) {
-		log.info("Signup Info: {}", member);
+	public String signup(@Validated @ModelAttribute("member") Signup form, BindingResult bindingResult, Model model) {
+		if (!form.getPw().isBlank() && !form.getPw2().isBlank()) {
+			if (!form.getPw2().equals(form.getPw())) {
+				bindingResult.reject("passwordMismatch", new Object[] {}, null);
+			}
+		}
 		
 		if (bindingResult.hasErrors()) {
-			log.info("erros: {}", bindingResult);
+			log.info("errors={}", bindingResult);
 			return "member/signup";
 		}
 		
-		return "redirect:/";
+		boolean res = memberService.signup(form);
+		if(res) {
+			model.addAttribute("msg", "회원가입 성공");
+			model.addAttribute("url", "/");
+		}else {
+			model.addAttribute("msg", "회원가입 실패");
+			model.addAttribute("url", "/member/signup");
+		}
+		
+		return "msg";
 	}
 	
 }
