@@ -33,7 +33,7 @@ public class MemberController {
 	public String signup(@Validated @ModelAttribute("member") Signup form, BindingResult bindingResult, Model model) {
 		if (!form.getPw().isBlank() && !form.getPw2().isBlank()) {
 			if (!form.getPw2().equals(form.getPw())) {
-				bindingResult.reject("passwordMismatch", new Object[] {}, null);
+				bindingResult.rejectValue("pw2", "passwordMismatch", new Object[] {}, null);
 			}
 		}
 		

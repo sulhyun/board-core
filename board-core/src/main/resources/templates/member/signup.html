@@ -30,10 +30,7 @@
 				<div class="form-group">
 					<label for="pw2">비밀번호 확인</label>
 					<input type="password" class="form-control" th:errorClass="error" id="pw2" name="pw2" th:field="*{pw2}" placeholder="비밀번호를 재입력하세요.">
-					<div class="error" th:errors="*{pw2}">[Field]비밀번호 에러 메시지</div>
-					<div th:if="${#fields.hasGlobalErrors()}">
-						<p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">[Object]비밀번호 에러 메시지</p>
-					</div>
+					<div class="error" th:errors="*{pw2}">[Field]비밀번호 확인 에러 메시지</div>
 				</div>
 				<div class="form-group">
 					<label for="email">이메일</label>

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.boardcore.dao.MemberDAO;
 import com.boardcore.domain.Member;
+import com.boardcore.domain.UserRole;
+import com.boardcore.domain.UserState;
 import com.boardcore.dto.Signup;
 
 import lombok.AllArgsConstructor;
@@ -25,18 +27,17 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		String encPw = passwordEncoder.encode(form.getPw());
-		form.setPw(encPw);
 		
 		Member member = new Member();
 		member.setMe_id(form.getId());
 		member.setMe_pw(encPw);
 		member.setMe_email(form.getEmail());
-		member.setMe_authority("USER");
-		member.setMe_ms_name("사용");
+		member.setMe_authority(UserRole.USER.name());
+		member.setMe_ms_name(UserState.ACTIVE.getDescription());
 		
 		try {
 			// 아이디 중복, 이메일 중복일 때 예외 발생
-			return memberDao.save(member);		
+			return memberDao.save(member);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return false;
