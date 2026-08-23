@@ -7,6 +7,7 @@ import com.boardcore.dao.MemberDAO;
 import com.boardcore.domain.Member;
 import com.boardcore.domain.UserRole;
 import com.boardcore.domain.UserState;
+import com.boardcore.dto.Login;
 import com.boardcore.dto.Signup;
 
 import lombok.AllArgsConstructor;
@@ -42,6 +43,12 @@ public class MemberServiceImpl implements MemberService {
 			log.error(e.getMessage());
 			return false;
 		}
+	}
+
+	@Override
+	public Member login(Login form) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
