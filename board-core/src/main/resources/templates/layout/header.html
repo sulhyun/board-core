@@ -2,27 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 	<header th:fragment="header">
-		<nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-between">
-			<a class="navbar-brand" href="/" th:href="@{/}">홈</a>
-			<ul class="navbar-nav">
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+			<a class="navbar-brand" href="/">Home</a>
+			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
 					<a class="nav-link" href="#">커뮤니티</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">관리자</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item" th:if="${session.loginMember eq null}">
 					<a class="nav-link" 
 					   href="/member/signup" 
 					   th:href="@{/member/signup}">회원가입</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item" th:if="${session.loginMember eq null}">
 					<a class="nav-link" 
 					   href="/member/login"
 					   th:href="@{/member/login}">로그인</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">로그아웃</a>
+				<li class="nav-item" th:if="${session.loginMember ne null}">
+					 <a class="nav-link" 
+					   href="/member/logout"
+					   th:href="@{/member/logout}">로그아웃</a>
 				</li>
 			</ul>
 		</nav>

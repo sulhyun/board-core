@@ -28,9 +28,11 @@ public class MyBatisConfig {
         sessionFactory.setMapperLocations(
             new PathMatchingResourcePatternResolver().getResources("classpath:mappers/*.xml")
         );
-         // TypeAlias 적용
-        sessionFactory.setTypeAliasesPackage("com.boardcore.member");  // 여기에 패키지 경로 지정
+        
+        // TypeAlias 적용
+        sessionFactory.setTypeAliasesPackage("com.boardcore.domain");  // 여기에 패키지 경로 지정
         return sessionFactory.getObject();
     }
+	
 }
 

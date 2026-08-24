@@ -73,7 +73,6 @@ public class MemberController {
 		}
 		
 		Member member = memberService.login(form);
-		
 		if (member == null) {
 			bindingResult.reject("loginFail", new Object[] {}, null);
 			return "member/login";
@@ -83,6 +82,17 @@ public class MemberController {
 		session.setAttribute(SessionConst.LOGIN_MEMBER, member);
 		
 		return "redirect:" + redirectURL;
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		
+		if (session != null) {
+			session.invalidate();
+		}
+		
+		return "redirect:/";
 	}
 	
 }
