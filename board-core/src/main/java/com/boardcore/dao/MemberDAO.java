@@ -6,4 +6,6 @@ public interface MemberDAO {
 
 	boolean save(Member member);
 
+	Member findById(String id);
+
 }

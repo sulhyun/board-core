@@ -13,5 +13,4 @@ public enum UserState {
 	
 	private final String description;
 	
-	
 }

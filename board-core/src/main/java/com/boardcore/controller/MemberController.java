@@ -49,10 +49,10 @@ public class MemberController {
 		
 		boolean res = memberService.signup(form);
 		if (res) {
-			model.addAttribute("msg", "회원가입을 성공하셨습니다.");
+			model.addAttribute("msg", "회원가입을 성공하였습니다.");
 			model.addAttribute("url", "/");
 		} else {
-			model.addAttribute("msg", "회원가입을 실패하셨습니다.");
+			model.addAttribute("msg", "회원가입을 실패하였습니다.");
 			model.addAttribute("url", "/member/signup");
 		}
 		
@@ -69,13 +69,14 @@ public class MemberController {
 	public String login(@Validated @ModelAttribute("member") Login form, BindingResult bindingResult, 
 			@RequestParam(defaultValue = "/") String redirectURL, HttpServletRequest request) {
 		if (bindingResult.hasErrors()) {
-			return "member/signup";
+			return "member/login";
 		}
 		
 		Member member = memberService.login(form);
 		
 		if (member == null) {
 			bindingResult.reject("loginFail", new Object[] {}, null);
+			return "member/login";
 		}
 		
 		HttpSession session = request.getSession();

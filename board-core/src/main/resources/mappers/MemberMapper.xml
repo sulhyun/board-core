@@ -5,4 +5,8 @@
 		INSERT INTO MEMBER(me_id, me_pw, me_email, me_authority, me_ms_name)
 		VALUES (#{me_id}, #{me_pw}, #{me_email}, #{me_authority}, #{me_ms_name})	  
 	</insert>
+	
+	<select id="findById" resultType="Member">
+		SELECT * FROM MEMBER WHERE ME_ID = #{id}
+	</select>
 </mapper>

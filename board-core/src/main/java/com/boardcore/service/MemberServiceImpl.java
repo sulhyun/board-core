@@ -20,7 +20,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	private final MemberDAO memberDao;
 	private final PasswordEncoder passwordEncoder;
-	
+
 	@Override
 	public boolean signup(Signup form) {
 		if (form == null) {
@@ -47,7 +47,19 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public Member login(Login form) {
-		// TODO Auto-generated method stub
+		if (form == null) {
+			return null;
+		}
+		
+		Member member = memberDao.findById(form.getId());
+		if (member == null) {
+			return null;
+		}
+		
+		if (passwordEncoder.matches(form.getPw(), member.getMe_pw())) {
+			return member;
+		}
+		
 		return null;
 	}
 
