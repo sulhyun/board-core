@@ -10,12 +10,12 @@ import com.boardcore.domain.UserState;
 import com.boardcore.dto.Login;
 import com.boardcore.dto.Signup;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 	
 	private final MemberDAO memberDao;

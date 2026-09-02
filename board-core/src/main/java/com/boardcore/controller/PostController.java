@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.boardcore.domain.Community;
+import com.boardcore.domain.Post;
+import com.boardcore.pagination.PageMaker;
+import com.boardcore.pagination.PostCriteria;
 import com.boardcore.service.PostService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,10 +26,17 @@ public class PostController {
 	private final PostService postService;
 	
 	@GetMapping("/list/{co_num}")
-	public String PostList(@PathVariable int co_num, Model model) {
-		List<Community> communities = postService.getCommunityList();
+	public String PostList(@PathVariable int co_num, PostCriteria cri, Model model) {
+		cri.setCo_num(co_num);
+		cri.setPerPageNum(1);
 		
-		model.addAttribute("communities", communities);
+		List<Community> cList = postService.getCommunityList();
+		List<Post> pList = postService.getPostList(cri);
+		PageMaker pm = postService.getPageMaker(cri);
+		
+		model.addAttribute("cList", cList);
+		model.addAttribute("pList", pList);
+		model.addAttribute("pm", pm);
 		return "post/list";
 	}
 	
