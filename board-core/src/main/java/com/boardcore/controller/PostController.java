@@ -28,7 +28,7 @@ public class PostController {
 	@GetMapping("/list/{co_num}")
 	public String PostList(@PathVariable int co_num, PostCriteria cri, Model model) {
 		cri.setCo_num(co_num);
-		cri.setPerPageNum(1);
+		cri.setPerPageNum(5);
 		
 		List<Community> cList = postService.getCommunityList();
 		List<Post> pList = postService.getPostList(cri);

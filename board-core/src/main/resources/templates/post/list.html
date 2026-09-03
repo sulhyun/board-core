@@ -16,8 +16,14 @@
 			   th:classappend="${pm.cri.co_num} == ${community.co_num} ? 'active' : ''"></a>
 		</div>
 		<div class="mt-4">
-			<table class="table table-striped">
-				<thead>
+			<table class="table table-hover">
+				<colgroup>
+					<col style="width: 10%;">
+					<col style="width: 65%;">
+					<col style="width: 15%;">
+					<col style="width: 10%;">
+                </colgroup>
+				<thead class="thead-dark text-center">
 					<tr>
 						<th>번호</th>
 						<th>제목</th>
@@ -27,29 +33,39 @@
 		    	</thead>
 		    	<tbody>
 		    		<tr th:each="post : ${pList}">
-		    			<td th:text="${post.po_num}"></td>
-		    			<td>
+		    			<td class="text-center" th:text="${post.po_num}"></td>
+		    			<td class="text-left">
 		    				<a th:text="${post.po_title}"></a>
 		    			</td>
-		    			<td th:text="${post.po_me_id}"></td>
-		    			<td th:text="${post.po_view}"></td>
+		    			<td class="text-center" th:text="${post.po_me_id}"></td>
+		    			<td class="text-center" th:text="${post.po_view}"></td>
 		    		</tr>
 		    		<tr th:if="${pList.size() == 0}">
-						<td colspan="4" class="text-center"><b>등록된 게시글이 없습니다.</b><td>
+						<td colspan="4" class="text-center"><b>등록된 게시글이 없습니다.</b></td>
 					</tr>
 		    	</tbody>
 			</table>
 			<ul class="pagination justify-content-center" th:object="${pm}" th:if="${pm.endPage != 0}">
-	   			<li class="page-item" th:if="*{prev}">
-	   				<a class="page-link" th:href="@{/post/list/{co_num}(page=*{startPage - 1}, co_num=*{cri.co_num})}">이전</a>
+	   			<li class="page-item"
+	   				th:classappend="*{!prev} ? 'disabled'">
+	   				 <button class="page-link"
+	   				 		 type="button"
+	   				 		 th:onclick="|location.href='@{/post/list/{co_num}(page=*{startPage - 1}, co_num=*{cri.co_num})}'|"
+	   				 		 th:disabled="*{!prev}">이전</button>
 	   			</li>
 			    <li class="page-item" 
 			    	th:each="i : *{#numbers.sequence(startPage, endPage)}"
 			    	th:classappend="*{cri.page} == ${i} ? 'active' : ''">
-			   	 	<a class="page-link" th:href="@{/post/list/{co_num}(page=${i}, co_num=*{cri.co_num})}" th:text="${i}">1</a>
+			   	 	<a class="page-link" 
+			   	 	   th:href="@{/post/list/{co_num}(page=${i}, co_num=*{cri.co_num})}" 
+			   	 	   th:text="${i}">1</a>
 			    </li>
-			    <li class="page-item" th:if="*{next}">
-			   		<a class="page-link" th:href="@{/post/list/{co_num}(page=*{endPage + 1}, co_num=*{cri.co_num})}">다음</a>
+			    <li class="page-item"
+			    	th:classappend="*{!next} ? 'disabled'">
+			    	<button class="page-link"
+			    			type="button"
+			    			th:onclick="|location.href='@{/post/list/{co_num}(page=*{endPage + 1}, co_num=*{cri.co_num})}'|"
+			    			th:disabled="*{!next}">다음</button>
 			    </li>
 	  		</ul>
 		</div>
