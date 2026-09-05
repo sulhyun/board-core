@@ -8,7 +8,7 @@
 </head>
 <body>
 	<main layout:fragment="content">
-		<div class="mt-3">
+		<div class="mt-4">
 			<a class="btn btn-outline-dark mr-2 mb-1"
 			   th:each="community : ${cList}"
 			   th:text="${community.co_name}"
@@ -50,24 +50,41 @@
 	   				th:classappend="*{!prev} ? 'disabled'">
 	   				 <button class="page-link"
 	   				 		 type="button"
-	   				 		 th:onclick="|location.href='@{/post/list/{co_num}(page=*{startPage - 1}, co_num=*{cri.co_num})}'|"
+	   				 		 th:onclick="|location.href='@{/post/list/{co_num}(page=*{startPage - 1}, type=*{cri.type}, search=*{cri.search}, co_num=*{cri.co_num})}'|"
 	   				 		 th:disabled="*{!prev}">이전</button>
 	   			</li>
 			    <li class="page-item" 
 			    	th:each="i : *{#numbers.sequence(startPage, endPage)}"
 			    	th:classappend="*{cri.page} == ${i} ? 'active' : ''">
 			   	 	<a class="page-link" 
-			   	 	   th:href="@{/post/list/{co_num}(page=${i}, co_num=*{cri.co_num})}" 
+			   	 	   th:href="@{/post/list/{co_num}(page=${i}, type=*{cri.type}, search=*{cri.search}, co_num=*{cri.co_num})}" 
 			   	 	   th:text="${i}">1</a>
 			    </li>
 			    <li class="page-item"
 			    	th:classappend="*{!next} ? 'disabled'">
 			    	<button class="page-link"
 			    			type="button"
-			    			th:onclick="|location.href='@{/post/list/{co_num}(page=*{endPage + 1}, co_num=*{cri.co_num})}'|"
+			    			th:onclick="|location.href='@{/post/list/{co_num}(page=*{endPage + 1}, type=*{cri.type}, search=*{cri.search}, co_num=*{cri.co_num})}'|"
 			    			th:disabled="*{!next}">다음</button>
 			    </li>
 	  		</ul>
+	  		<form th:object="${cri}" th:action="@{/post/list/{co_num}(co_num=*{co_num})}" method="get">
+	  			<div class="input-group mb-3 justify-content-center">
+	  				<select class="form-control col-1" th:field="*{type}">
+	  					<option th:each="searchType : ${searchTypes}"
+	  							th:value="${searchType.type}"
+	  							th:text="${searchType.displayName}">전체</option>
+	  				</select>
+	  				<input class="form-control col-4" type="text" th:field="*{search}" placeholder="검색어를 입력하세요.">
+	  				<div class="input-group-append">
+	  					<button class="btn btn-outline-dark" type="submit">검색</button>
+	  				</div>
+	  			</div>
+	  		</form>
+	  		<div class="d-flex justify-content-end mb-3">
+    			<a class="btn btn-outline-dark"
+				   th:href="@{/post/add/{co_num}(co_num=${pm.cri.co_num})}">등록</a>
+			</div>
 		</div>
 	</main>
 </body>

@@ -10,7 +10,18 @@
 	<select id="getPostList" resultType="Post">
 		SELECT * 
 		FROM POST 
-		WHERE PO_CO_NUM = #{co_num} 
+		WHERE PO_CO_NUM = #{co_num}
+		<choose>
+			<when test="type == 'TITLE'">
+				AND PO_TITLE LIKE CONCAT ('%', #{search}, '%')
+			</when>
+			<when test="type == 'ID'">
+				AND PO_ME_ID LIKE CONCAT ('%', #{search}, '%')
+			</when>
+			<otherwise>
+				AND (PO_TITLE LIKE CONCAT ('%', #{search}, '%') OR PO_ME_ID LIKE CONCAT ('%', #{search}, '%'))
+			</otherwise>
+		</choose>
 		ORDER BY PO_NUM DESC
 		LIMIT #{pageStart}, #{perPageNum}
 	</select>
@@ -19,5 +30,16 @@
 		SELECT COUNT(*)
 		FROM POST
 		WHERE PO_CO_NUM = #{co_num}
+		<choose>
+			<when test="type == 'TITLE'">
+				AND PO_TITLE LIKE CONCAT ('%', #{search}, '%')
+			</when>
+			<when test="type == 'ID'">
+				AND PO_ME_ID LIKE CONCAT ('%', #{search}, '%')
+			</when>
+			<otherwise>
+				AND (PO_TITLE LIKE CONCAT ('%', #{search}, '%') OR PO_ME_ID LIKE CONCAT ('%', #{search}, '%'))
+			</otherwise>
+		</choose>
 	</select>
 </mapper>
