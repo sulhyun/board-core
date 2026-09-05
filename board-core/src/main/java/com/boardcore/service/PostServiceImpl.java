@@ -42,9 +42,13 @@ public class PostServiceImpl implements PostService{
 		
 		int totalCount = postDao.getPostTotalCount(cri);
 		PageMaker pm = new PageMaker(totalCount, 5, cri);
-		log.debug("totalCount={}", totalCount);
-		log.debug("pm={}", pm);
 		return pm;
+	}
+
+	@Override
+	public Post getPost(int po_num) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

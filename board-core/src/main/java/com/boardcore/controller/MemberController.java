@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.boardcore.constant.SessionConst;
 import com.boardcore.domain.Member;
-import com.boardcore.dto.Login;
-import com.boardcore.dto.Signup;
+import com.boardcore.dto.LoginForm;
+import com.boardcore.dto.SignupForm;
 import com.boardcore.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,12 +31,12 @@ public class MemberController {
 	
 	@GetMapping("/signup")
 	public String signupForm(Model model) {
-		model.addAttribute("member", new Signup());
+		model.addAttribute("member", new SignupForm());
 		return "member/signup";
 	}
 	
 	@PostMapping("/signup")
-	public String signup(@Validated @ModelAttribute("member") Signup form, BindingResult bindingResult, Model model) {
+	public String signup(@Validated @ModelAttribute("member") SignupForm form, BindingResult bindingResult, Model model) {
 		if (!form.getPw().isBlank() && !form.getPw2().isBlank()) {
 			if (!form.getPw2().equals(form.getPw())) {
 				bindingResult.rejectValue("pw2", "mismatch", new Object[] {}, null);
@@ -61,12 +61,12 @@ public class MemberController {
 	
 	@GetMapping("/login")
 	public String login(Model model) {
-		model.addAttribute("member", new Login());
+		model.addAttribute("member", new LoginForm());
 		return "member/login";
 	}
 	
 	@PostMapping("/login")
-	public String login(@Validated @ModelAttribute("member") Login form, BindingResult bindingResult, 
+	public String login(@Validated @ModelAttribute("member") LoginForm form, BindingResult bindingResult, 
 			@RequestParam(defaultValue = "/") String redirectURL, HttpServletRequest request) {
 		if (bindingResult.hasErrors()) {
 			return "member/login";

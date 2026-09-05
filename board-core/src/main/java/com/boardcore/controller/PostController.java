@@ -42,14 +42,27 @@ public class PostController {
 		cri.setCo_num(co_num);
 		cri.setPerPageNum(5);
 		
-		List<Community> cList = postService.getCommunityList();
-		List<Post> pList = postService.getPostList(cri);
+		List<Community> communityList = postService.getCommunityList();
+		List<Post> postList = postService.getPostList(cri);
 		PageMaker pm = postService.getPageMaker(cri);
 		
-		model.addAttribute("cList", cList);
-		model.addAttribute("pList", pList);
+		model.addAttribute("communityList", communityList);
+		model.addAttribute("postList", postList);
 		model.addAttribute("pm", pm);
 		return "post/list";
+	}
+	
+	@GetMapping("/detail/{po_num}")
+	public String detail(@PathVariable int po_num, Model model) {
+		Post post = postService.getPost(po_num);
+		model.addAttribute("post", post);
+		return "post/detail";
+	}
+	
+	@GetMapping("/add/{co_num}")
+	public String addForm(@PathVariable int co_num, Model model) {
+		model.addAttribute("post", new Post());
+		return "post/add";
 	}
 	
 }

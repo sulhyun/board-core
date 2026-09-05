@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Signup {
+public class SignupForm {
 	
 	@NotBlank
 	@Pattern(regexp = "^\\w{6,13}$|^$")

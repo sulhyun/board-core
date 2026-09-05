@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Login {
+public class LoginForm {
 	
 	@NotBlank
 	private String id;

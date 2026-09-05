@@ -7,8 +7,8 @@ import com.boardcore.dao.MemberDAO;
 import com.boardcore.domain.Member;
 import com.boardcore.domain.UserRole;
 import com.boardcore.domain.UserState;
-import com.boardcore.dto.Login;
-import com.boardcore.dto.Signup;
+import com.boardcore.dto.LoginForm;
+import com.boardcore.dto.SignupForm;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ public class MemberServiceImpl implements MemberService {
 	private final PasswordEncoder passwordEncoder;
 
 	@Override
-	public boolean signup(Signup form) {
+	public boolean signup(SignupForm form) {
 		if (form == null) {
 			return false;
 		}
@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member login(Login form) {
+	public Member login(LoginForm form) {
 		if (form == null) {
 			return null;
 		}

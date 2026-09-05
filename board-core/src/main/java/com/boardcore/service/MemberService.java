@@ -1,13 +1,13 @@
 package com.boardcore.service;
 
 import com.boardcore.domain.Member;
-import com.boardcore.dto.Login;
-import com.boardcore.dto.Signup;
+import com.boardcore.dto.LoginForm;
+import com.boardcore.dto.SignupForm;
 
 public interface MemberService {
 	
-	boolean signup(Signup member);
+	boolean signup(SignupForm member);
 
-	Member login(Login form);
+	Member login(LoginForm form);
 
 }

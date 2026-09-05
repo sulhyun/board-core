@@ -1,5 +1,5 @@
 package com.boardcore.dto;
 
-public class PostSave {
+public class PostUpdateForm {
 
 }

@@ -10,7 +10,7 @@
 	<main layout:fragment="content">
 		<div class="mt-4">
 			<a class="btn btn-outline-dark mr-2 mb-1"
-			   th:each="community : ${cList}"
+			   th:each="community : ${communityList}"
 			   th:text="${community.co_name}"
 			   th:href="@{/post/list/{co_num}(co_num=${community.co_num})}"
 			   th:classappend="${pm.cri.co_num} == ${community.co_num} ? 'active' : ''"></a>
@@ -32,15 +32,16 @@
 					</tr>
 		    	</thead>
 		    	<tbody>
-		    		<tr th:each="post : ${pList}">
+		    		<tr th:each="post : ${postList}">
 		    			<td class="text-center" th:text="${post.po_num}"></td>
 		    			<td class="text-left">
-		    				<a th:text="${post.po_title}"></a>
+		    				<a th:text="${post.po_title}"
+		    				   th:href="@{/post/detail/{po_num}(po_num=${post.po_num})}"></a>
 		    			</td>
 		    			<td class="text-center" th:text="${post.po_me_id}"></td>
 		    			<td class="text-center" th:text="${post.po_view}"></td>
 		    		</tr>
-		    		<tr th:if="${pList.size() == 0}">
+		    		<tr th:if="${postList.size() == 0}">
 						<td colspan="4" class="text-center"><b>등록된 게시글이 없습니다.</b></td>
 					</tr>
 		    	</tbody>
