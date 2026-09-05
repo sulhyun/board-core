@@ -8,7 +8,38 @@
 </head>
 <body>
 	<main layout:fragment="content">
-	
+		<div class="mt-4" th:object="${post}">
+			<div class="form-group">
+				<label>제목</label>
+				<input type="text" class="form-control" th:field="*{po_title}" readonly>
+			</div>
+			<div class="form-group">
+				<label>작성자</label>
+				<input type="text" class="form-control" th:field="*{po_me_id}" readonly>
+			</div>
+			<div class="form-group">
+				<label>작성일</label>
+				<input type="text" class="form-control" name="po_date" th:value="*{#dates.format(po_date, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+			</div>
+			<div class="form-group">
+				<label>조회수</label>
+				<input type="text" class="form-control" th:field="*{po_view}" readonly>
+			</div>
+			<div class="form-group">
+				<label>내용</label>
+				<div class="form-control" style="min-height: 400px; height: auto" th:utext="*{po_content}"></div>
+			</div>
+			<div class="d-flex justify-content-end mb-3">
+				<a class="btn btn-outline-dark mr-2" 
+				   th:href="@{/post/list/{co_num}(co_num=*{po_co_num})}">목록</a>
+				<a class="btn btn-outline-dark mr-2" 
+				   th:href="@{/post/update/{po_num}(po_num=*{po_num})}"
+				   th:if="${session.loginMember?.me_id == post.po_me_id}">수정</a>
+				<a class="btn btn-outline-dark"
+				   th:href="@{/post/delete/{co_num}/{po_num}(co_num=*{po_co_num}, po_num=*{po_num})}"
+				   th:if="${session.loginMember?.me_id == post.po_me_id}">삭제</a>
+			</div>
+		</div>
 	</main>
 </body>
 </html>

@@ -47,8 +47,7 @@ public class PostServiceImpl implements PostService{
 
 	@Override
 	public Post getPost(int po_num) {
-		// TODO Auto-generated method stub
-		return null;
+		return postDao.getPost(po_num);
 	}
 
 }
