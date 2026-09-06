@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.boardcore.constant.SessionConst;
 import com.boardcore.domain.Member;
@@ -36,7 +37,8 @@ public class MemberController {
 	}
 	
 	@PostMapping("/signup")
-	public String signup(@Validated @ModelAttribute("member") SignupForm form, BindingResult bindingResult, Model model) {
+	public String signup(@Validated @ModelAttribute("member") SignupForm form,
+			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		if (!form.getPw().isBlank() && !form.getPw2().isBlank()) {
 			if (!form.getPw2().equals(form.getPw())) {
 				bindingResult.rejectValue("pw2", "mismatch", new Object[] {}, null);
@@ -48,15 +50,14 @@ public class MemberController {
 		}
 		
 		boolean res = memberService.signup(form);
-		if (res) {
-			model.addAttribute("msg", "회원가입을 성공하였습니다.");
-			model.addAttribute("url", "/");
-		} else {
-			model.addAttribute("msg", "회원가입을 실패하였습니다.");
-			model.addAttribute("url", "/member/signup");
-		}
 		
-		return "msg";
+		if (res) {
+			redirectAttributes.addFlashAttribute("msg", "회원가입을 성공하셨습니다.");
+			return "redirect:/";
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "회원가입을 실패하셨습니다.");
+			return "redirect:/member/signup";
+		}
 	}
 	
 	@GetMapping("/login")
