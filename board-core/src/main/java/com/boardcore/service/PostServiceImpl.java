@@ -3,10 +3,12 @@ package com.boardcore.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.boardcore.dao.PostDAO;
 import com.boardcore.domain.Community;
 import com.boardcore.domain.Post;
+import com.boardcore.dto.PostSaveForm;
 import com.boardcore.pagination.PageMaker;
 import com.boardcore.pagination.PostCriteria;
 
@@ -46,8 +48,16 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
+	@Transactional
 	public Post getPost(int po_num) {
+		postDao.updateView(po_num);
 		return postDao.getPost(po_num);
+	}
+
+	@Override
+	public Post addPost(PostSaveForm form) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

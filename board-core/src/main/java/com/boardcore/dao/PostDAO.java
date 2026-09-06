@@ -13,6 +13,8 @@ public interface PostDAO {
 	List<Post> getPostList(PostCriteria cri);
 
 	int getPostTotalCount(PostCriteria cri);
+	
+	void updateView(int po_num);
 
 	Post getPost(int po_num);
 
