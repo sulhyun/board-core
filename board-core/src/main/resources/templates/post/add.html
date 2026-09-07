@@ -19,7 +19,7 @@
 			<form th:action="@{/post/add}" th:object="${post}" method="post">
 				<div class="form-group">
 					<label for="writer">작성자</label>
-					<input type="text" class="form-control" id="writer" name="po_me_id" th:value="${session.loginMember.me_id}"  readonly>
+					<input type="text" class="form-control" id="writer" th:value="${session.loginMember.me_id}" readonly>
 				</div>
 				<div class="form-group">
 					<label for="title">제목</label>
@@ -29,7 +29,7 @@
 					<label for="content">내용</label>
 					<textarea class="form-control" id="content" th:field="*{po_content}" placeholder="내용을 입력하세요." style="min-height: 400px; height: auto"></textarea>
 				</div>
-				<input type="hidden" name="po_co_num" th:value="${co_num}">
+				<input type="hidden" th:field="*{po_co_num}">
 				<button class="btn btn-outline-dark col-12 mb-2">등록</button>
 			</form>
 		</div>

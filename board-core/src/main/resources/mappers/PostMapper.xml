@@ -48,5 +48,10 @@
 	<select id="getPost" resultType="Post">
 		SELECT * FROM POST WHERE PO_NUM = #{po_num}
 	</select>
+	
+	<insert id="addPost" parameterType="Post" useGeneratedKeys="true" keyProperty="po_num">
+		INSERT INTO POST (PO_TITLE, PO_CONTENT, PO_ME_ID, PO_CO_NUM)
+		VALUES (#{po_title}, #{po_content}, #{po_me_id}, #{po_co_num})
+	</insert>
 
 </mapper>

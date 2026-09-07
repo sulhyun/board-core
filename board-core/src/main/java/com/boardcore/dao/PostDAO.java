@@ -18,4 +18,6 @@ public interface PostDAO {
 
 	Post getPost(int po_num);
 
+	boolean addPost(Post form);
+
 }

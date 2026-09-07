@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.boardcore.constant.SessionConst;
 import com.boardcore.domain.Community;
+import com.boardcore.domain.Member;
 import com.boardcore.domain.Post;
 import com.boardcore.dto.PostSaveForm;
 import com.boardcore.pagination.PageMaker;
@@ -22,6 +26,7 @@ import com.boardcore.pagination.PostCriteria;
 import com.boardcore.pagination.SearchType;
 import com.boardcore.service.PostService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -67,30 +72,30 @@ public class PostController {
 	
 	@GetMapping("/add/{co_num}")
 	public String addForm(@PathVariable int co_num, Model model) {
-		model.addAttribute("post", new Post());
-		model.addAttribute("co_num", co_num);
+		PostSaveForm form = new PostSaveForm();
+		form.setPo_co_num(co_num);
+		
+		model.addAttribute("post", form);
 		return "post/add";
 	}
 	
 	@PostMapping("/add")
-	public String add(@Validated @ModelAttribute("post") PostSaveForm form,
-			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-		log.info("Post={}", form);
-		
+	public String add(@Validated @ModelAttribute("post") PostSaveForm form, MultipartFile[] files,
+			BindingResult bindingResult, RedirectAttributes redirectAttributes,
+			@SessionAttribute(name = SessionConst.LOGIN_MEMBER) Member user) {
 		if (bindingResult.hasErrors()) {
 			return "post/add";
 		}
 		
-		Post post = postService.addPost(form);
+		Post post = postService.addPost(form, user);
 		
 		if (post != null) {
 			redirectAttributes.addFlashAttribute("msg", "게시글 등록에 성공하셨습니다.");
-			return "redirct:/post/detail/" + post.getPo_num();
+			return "redirect:/post/detail/" + post.getPo_num();
 		} else {
 			redirectAttributes.addFlashAttribute("msg", "게시글 등록에 실패하셨습니다.");
-			return "redirect:/post/add/" + form.getPo_co_num();
+			return "redirect:/post/list/" + form.getPo_co_num();
 		}
-		
 	}
 	
 }

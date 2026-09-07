@@ -3,6 +3,7 @@ package com.boardcore.service;
 import java.util.List;
 
 import com.boardcore.domain.Community;
+import com.boardcore.domain.Member;
 import com.boardcore.domain.Post;
 import com.boardcore.dto.PostSaveForm;
 import com.boardcore.pagination.PageMaker;
@@ -18,6 +19,6 @@ public interface PostService {
 	
 	Post getPost(int po_num);
 
-	Post addPost(PostSaveForm form);
+	Post addPost(PostSaveForm form, Member user);
 
 }

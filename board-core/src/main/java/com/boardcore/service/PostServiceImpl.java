@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.boardcore.dao.PostDAO;
 import com.boardcore.domain.Community;
+import com.boardcore.domain.Member;
 import com.boardcore.domain.Post;
 import com.boardcore.dto.PostSaveForm;
 import com.boardcore.pagination.PageMaker;
@@ -55,9 +56,20 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public Post addPost(PostSaveForm form) {
-		// TODO Auto-generated method stub
-		return null;
+	public Post addPost(PostSaveForm form, Member user) {
+		if (form == null) {
+			return null;
+		}
+		
+		Post post = new Post();
+		post.setPo_co_num(form.getPo_co_num());
+		post.setPo_me_id(user.getMe_id());
+		post.setPo_title(form.getPo_title());
+		post.setPo_content(form.getPo_content());
+		
+		boolean result = postDao.addPost(post);
+		
+		return result ? post : null;
 	}
 
 }

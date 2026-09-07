@@ -1,19 +1,19 @@
 package com.boardcore.dto;
 
-import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class PostSaveForm {
 	
 	private String po_me_id;
 	
-	@NotEmpty
+	@NotBlank
 	private String po_title;
 	
-	@NotEmpty
+	@NotBlank
 	private String po_content;
 	
 	private int po_co_num;
