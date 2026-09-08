@@ -46,11 +46,11 @@ public class PostController {
 		searchTypes.add(new SearchType("ID", "아이디"));
 		return searchTypes;
 	}
-	
+
 	@GetMapping("/list/{co_num}")
 	public String list(@PathVariable int co_num, @ModelAttribute("cri") PostCriteria cri, Model model) {
 		cri.setCo_num(co_num);
-		cri.setPerPageNum(5);
+		cri.setPerPageNum(10);
 		
 		List<Community> communityList = postService.getCommunityList();
 		List<Post> postList = postService.getPostList(cri);
@@ -64,6 +64,7 @@ public class PostController {
 	
 	@GetMapping("/detail/{po_num}")
 	public String detail(@PathVariable int po_num, Model model) {
+		postService.updateView(po_num);
 		Post post = postService.getPost(po_num);
 
 		model.addAttribute("post", post);
@@ -79,10 +80,11 @@ public class PostController {
 		return "post/add";
 	}
 	
-	@PostMapping("/add")
-	public String add(@Validated @ModelAttribute("post") PostSaveForm form, MultipartFile[] files,
-			BindingResult bindingResult, RedirectAttributes redirectAttributes,
-			@SessionAttribute(name = SessionConst.LOGIN_MEMBER) Member user) {
+	@PostMapping("/add/{co_num}")
+	public String add(@PathVariable int co_num, @Validated @ModelAttribute("post") PostSaveForm form, BindingResult bindingResult,
+			MultipartFile[] fileList, RedirectAttributes redirectAttributes, @SessionAttribute(name = SessionConst.LOGIN_MEMBER) Member user) {
+		form.setPo_co_num(co_num);
+		
 		if (bindingResult.hasErrors()) {
 			return "post/add";
 		}

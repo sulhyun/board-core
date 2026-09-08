@@ -17,8 +17,10 @@ public interface PostService {
 
 	PageMaker getPageMaker(PostCriteria cri);
 	
+	void updateView(int po_num);
+	
 	Post getPost(int po_num);
 
 	Post addPost(PostSaveForm form, Member user);
-
+	
 }

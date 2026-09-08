@@ -49,9 +49,12 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	@Transactional
-	public Post getPost(int po_num) {
+	public void updateView(int po_num) {
 		postDao.updateView(po_num);
+	}
+	
+	@Override
+	public Post getPost(int po_num) {
 		return postDao.getPost(po_num);
 	}
 

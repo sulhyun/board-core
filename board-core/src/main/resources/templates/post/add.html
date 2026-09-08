@@ -16,7 +16,7 @@
 			<div class="py-2 text-center">
 				<h2>게시글 등록</h2>
 			</div>
-			<form th:action="@{/post/add}" th:object="${post}" method="post">
+			<form th:action="@{/post/add/{co_num}(co_num=*{po_co_num})}" th:object="${post}" method="post">
 				<div class="form-group">
 					<label for="writer">작성자</label>
 					<input type="text" class="form-control" id="writer" th:value="${session.loginMember.me_id}" readonly>
@@ -24,12 +24,13 @@
 				<div class="form-group">
 					<label for="title">제목</label>
 					<input type="text" class="form-control" id="title" th:field="*{po_title}" placeholder="제목을 입력하세요.">
+					<div class="error" th:errors="*{po_title}">[Field]제목 에러 메시지</div>
 				</div>
 				<div class="form-group">
 					<label for="content">내용</label>
 					<textarea class="form-control" id="content" th:field="*{po_content}" placeholder="내용을 입력하세요." style="min-height: 400px; height: auto"></textarea>
+					<div class="error" th:errors="*{po_content}">[Field]내용 에러 메시지</div>
 				</div>
-				<input type="hidden" th:field="*{po_co_num}">
 				<button class="btn btn-outline-dark col-12 mb-2">등록</button>
 			</form>
 		</div>
