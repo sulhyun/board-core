@@ -1,14 +1,17 @@
 package com.boardcore.service;
 
+import java.io.File;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.boardcore.dao.PostDAO;
-import com.boardcore.domain.Community;
-import com.boardcore.domain.Member;
-import com.boardcore.domain.Post;
+import com.boardcore.domain.CommunityVO;
+import com.boardcore.domain.FileVO;
+import com.boardcore.domain.MemberVO;
+import com.boardcore.domain.PostVO;
 import com.boardcore.dto.PostSaveForm;
 import com.boardcore.pagination.PageMaker;
 import com.boardcore.pagination.PostCriteria;
@@ -21,15 +24,18 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService{
 
+	@Value("${file.dir}")
+	private String fileDir;
+	
 	private final PostDAO postDao;
 	
 	@Override
-	public List<Community> getCommunityList() {
+	public List<CommunityVO> getCommunityList() {
 		return postDao.getCommunityList();
 	}
 
 	@Override
-	public List<Post> getPostList(PostCriteria cri) {
+	public List<PostVO> getPostList(PostCriteria cri) {
 		if (cri == null) {
 			return null;
 		}
@@ -54,25 +60,60 @@ public class PostServiceImpl implements PostService{
 	}
 	
 	@Override
-	public Post getPost(int po_num) {
+	public PostVO getPost(int po_num) {
 		return postDao.getPost(po_num);
 	}
 
 	@Override
-	public Post addPost(PostSaveForm form, Member user) {
+	public PostVO addPost(PostSaveForm form, MemberVO user) {
 		if (form == null) {
 			return null;
 		}
 		
-		Post post = new Post();
+		PostVO post = new PostVO();
 		post.setPo_co_num(form.getPo_co_num());
 		post.setPo_me_id(user.getMe_id());
 		post.setPo_title(form.getPo_title());
 		post.setPo_content(form.getPo_content());
 		
+		log.info("post_1={}", post);
+		
 		boolean result = postDao.addPost(post);
 		
-		return result ? post : null;
+		log.info("post_2={}", post);
+		
+		if (!result) {
+			return null;
+		}
+		
+		if (form.getFileList() == null || form.getFileList().size() == 0) {
+			return post;
+		}
+		
+		for (MultipartFile file : form.getFileList()) {
+			log.info("file={}", file);
+			uploadFile(file, post.getPo_num());
+		}
+		
+		return post;
+	}
+
+	private void uploadFile(MultipartFile file, int po_num) {
+		try {
+			if (!file.isEmpty()) {
+				String fi_ori_name = file.getOriginalFilename();
+				String fi_name = fileDir + fi_ori_name;
+				
+				FileVO fileVo = new FileVO(fi_ori_name, fi_name, po_num);
+				boolean result = postDao.addFile(fileVo);
+				
+				if (result) {
+					file.transferTo(new File(fi_name));
+				}
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 	}
 
 }

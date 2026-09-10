@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Post {
+public class PostVO {
 
 	private int po_num;			// 게시글 번호
 	private String po_title;	// 게시글 제목

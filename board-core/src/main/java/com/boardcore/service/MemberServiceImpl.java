@@ -4,7 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.boardcore.dao.MemberDAO;
-import com.boardcore.domain.Member;
+import com.boardcore.domain.MemberVO;
 import com.boardcore.domain.UserRole;
 import com.boardcore.domain.UserState;
 import com.boardcore.dto.LoginForm;
@@ -29,7 +29,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		String encPw = passwordEncoder.encode(form.getPw());
 		
-		Member member = new Member();
+		MemberVO member = new MemberVO();
 		member.setMe_id(form.getId());
 		member.setMe_pw(encPw);
 		member.setMe_email(form.getEmail());
@@ -46,12 +46,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member login(LoginForm form) {
+	public MemberVO login(LoginForm form) {
 		if (form == null) {
 			return null;
 		}
 		
-		Member member = memberDao.findById(form.getId());
+		MemberVO member = memberDao.findById(form.getId());
 		if (member == null) {
 			return null;
 		}

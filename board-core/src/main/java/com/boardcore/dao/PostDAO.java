@@ -2,22 +2,25 @@ package com.boardcore.dao;
 
 import java.util.List;
 
-import com.boardcore.domain.Community;
-import com.boardcore.domain.Post;
+import com.boardcore.domain.CommunityVO;
+import com.boardcore.domain.FileVO;
+import com.boardcore.domain.PostVO;
 import com.boardcore.pagination.PostCriteria;
 
 public interface PostDAO {
 
-	List<Community> getCommunityList();
+	List<CommunityVO> getCommunityList();
 
-	List<Post> getPostList(PostCriteria cri);
+	List<PostVO> getPostList(PostCriteria cri);
 
 	int getPostTotalCount(PostCriteria cri);
 	
 	void updateView(int po_num);
 
-	Post getPost(int po_num);
+	PostVO getPost(int po_num);
 
-	boolean addPost(Post form);
+	boolean addPost(PostVO form);
+
+	boolean addFile(FileVO fileVo);
 
 }

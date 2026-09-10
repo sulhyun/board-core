@@ -13,20 +13,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.boardcore.constant.SessionConst;
-import com.boardcore.domain.Community;
-import com.boardcore.domain.Member;
-import com.boardcore.domain.Post;
+import com.boardcore.domain.CommunityVO;
+import com.boardcore.domain.MemberVO;
+import com.boardcore.domain.PostVO;
 import com.boardcore.dto.PostSaveForm;
 import com.boardcore.pagination.PageMaker;
 import com.boardcore.pagination.PostCriteria;
 import com.boardcore.pagination.SearchType;
 import com.boardcore.service.PostService;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,8 +50,8 @@ public class PostController {
 		cri.setCo_num(co_num);
 		cri.setPerPageNum(10);
 		
-		List<Community> communityList = postService.getCommunityList();
-		List<Post> postList = postService.getPostList(cri);
+		List<CommunityVO> communityList = postService.getCommunityList();
+		List<PostVO> postList = postService.getPostList(cri);
 		PageMaker pm = postService.getPageMaker(cri);
 		
 		model.addAttribute("communityList", communityList);
@@ -65,7 +63,7 @@ public class PostController {
 	@GetMapping("/detail/{po_num}")
 	public String detail(@PathVariable int po_num, Model model) {
 		postService.updateView(po_num);
-		Post post = postService.getPost(po_num);
+		PostVO post = postService.getPost(po_num);
 
 		model.addAttribute("post", post);
 		return "post/detail";
@@ -82,14 +80,14 @@ public class PostController {
 	
 	@PostMapping("/add/{co_num}")
 	public String add(@PathVariable int co_num, @Validated @ModelAttribute("post") PostSaveForm form, BindingResult bindingResult,
-			MultipartFile[] fileList, RedirectAttributes redirectAttributes, @SessionAttribute(name = SessionConst.LOGIN_MEMBER) Member user) {
+			RedirectAttributes redirectAttributes, @SessionAttribute(name = SessionConst.LOGIN_MEMBER) MemberVO user) {
 		form.setPo_co_num(co_num);
 		
 		if (bindingResult.hasErrors()) {
 			return "post/add";
 		}
 		
-		Post post = postService.addPost(form, user);
+		PostVO post = postService.addPost(form, user);
 		
 		if (post != null) {
 			redirectAttributes.addFlashAttribute("msg", "게시글 등록에 성공하셨습니다.");

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.boardcore.constant.SessionConst;
-import com.boardcore.domain.Member;
+import com.boardcore.domain.MemberVO;
 import com.boardcore.dto.LoginForm;
 import com.boardcore.dto.SignupForm;
 import com.boardcore.service.MemberService;
@@ -73,7 +73,7 @@ public class MemberController {
 			return "member/login";
 		}
 		
-		Member member = memberService.login(form);
+		MemberVO member = memberService.login(form);
 		if (member == null) {
 			bindingResult.reject("loginFail", new Object[] {}, null);
 			return "member/login";

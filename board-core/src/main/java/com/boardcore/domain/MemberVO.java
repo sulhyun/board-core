@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Member {
+public class MemberVO {
 
 	private String me_id;			// 아이디
 	private String me_pw;			// 비밀번호

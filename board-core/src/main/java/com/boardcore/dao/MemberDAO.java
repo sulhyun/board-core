@@ -1,11 +1,11 @@
 package com.boardcore.dao;
 
-import com.boardcore.domain.Member;
+import com.boardcore.domain.MemberVO;
 
 public interface MemberDAO {
 
-	boolean save(Member member);
+	boolean save(MemberVO member);
 
-	Member findById(String id);
+	MemberVO findById(String id);
 
 }

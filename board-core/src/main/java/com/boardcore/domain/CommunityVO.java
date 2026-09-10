@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Community {
+public class CommunityVO {
 
 	private int co_num;			// 커뮤니티 번호
 	private String co_name;		// 커뮤니티명
