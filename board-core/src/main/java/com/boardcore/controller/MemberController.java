@@ -52,10 +52,10 @@ public class MemberController {
 		boolean res = memberService.signup(form);
 		
 		if (res) {
-			redirectAttributes.addFlashAttribute("msg", "회원가입을 성공하셨습니다.");
+			redirectAttributes.addFlashAttribute("msg", "회원가입 성공!!!");
 			return "redirect:/";
 		} else {
-			redirectAttributes.addFlashAttribute("msg", "회원가입을 실패하셨습니다.");
+			redirectAttributes.addFlashAttribute("msg", "회원가입 실패!!!");
 			return "redirect:/member/signup";
 		}
 	}

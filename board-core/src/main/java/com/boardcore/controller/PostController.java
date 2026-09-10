@@ -90,10 +90,10 @@ public class PostController {
 		PostVO post = postService.addPost(form, user);
 		
 		if (post != null) {
-			redirectAttributes.addFlashAttribute("msg", "게시글 등록에 성공하셨습니다.");
+			redirectAttributes.addFlashAttribute("msg", "게시글 등록 성공!!!");
 			return "redirect:/post/detail/" + post.getPo_num();
 		} else {
-			redirectAttributes.addFlashAttribute("msg", "게시글 등록에 실패하셨습니다.");
+			redirectAttributes.addFlashAttribute("msg", "게시글 등록 실패!!!");
 			return "redirect:/post/list/" + form.getPo_co_num();
 		}
 	}
