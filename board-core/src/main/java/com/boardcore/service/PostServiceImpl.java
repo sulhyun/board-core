@@ -2,6 +2,7 @@ package com.boardcore.service;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ import com.boardcore.domain.PostVO;
 import com.boardcore.dto.PostSaveForm;
 import com.boardcore.pagination.PageMaker;
 import com.boardcore.pagination.PostCriteria;
+import com.boardcore.utils.UploadFileUtilsV1;
+import com.boardcore.utils.UploadFileUtilsV2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -102,7 +105,8 @@ public class PostServiceImpl implements PostService{
 		try {
 			if (!file.isEmpty()) {
 				String fi_ori_name = file.getOriginalFilename();
-				String fi_name = fileDir + fi_ori_name;
+				//String fi_name = UploadFileUtilsV1.uploadFile(fileDir, fi_ori_name, file.getBytes());
+				String fi_name = UploadFileUtilsV2.uploadFile(fileDir, file);
 				
 				FileVO fileVo = new FileVO(fi_ori_name, fi_name, po_num);
 				boolean result = postDao.addFile(fileVo);
