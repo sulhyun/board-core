@@ -1,8 +1,6 @@
 package com.boardcore.service;
 
-import java.io.File;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -79,11 +77,7 @@ public class PostServiceImpl implements PostService{
 		post.setPo_title(form.getPo_title());
 		post.setPo_content(form.getPo_content());
 		
-		log.info("post_1={}", post);
-		
 		boolean result = postDao.addPost(post);
-		
-		log.info("post_2={}", post);
 		
 		if (!result) {
 			return null;
@@ -94,7 +88,6 @@ public class PostServiceImpl implements PostService{
 		}
 		
 		for (MultipartFile file : form.getFileList()) {
-			log.info("file={}", file);
 			uploadFile(file, post.getPo_num());
 		}
 		
@@ -109,11 +102,7 @@ public class PostServiceImpl implements PostService{
 				String fi_name = UploadFileUtilsV2.uploadFile(fileDir, file);
 				
 				FileVO fileVo = new FileVO(fi_ori_name, fi_name, po_num);
-				boolean result = postDao.addFile(fileVo);
-				
-				if (result) {
-					file.transferTo(new File(fi_name));
-				}
+				postDao.addFile(fileVo);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());

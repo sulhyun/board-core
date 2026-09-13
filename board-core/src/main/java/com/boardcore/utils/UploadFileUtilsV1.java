@@ -27,7 +27,7 @@ public class UploadFileUtilsV1 {
 	private static String calcPath(String uploadPath) {
 		Calendar cal = Calendar.getInstance();
 
-		String yearPath = File.separator+cal.get(Calendar.YEAR);
+		String yearPath = File.separator + cal.get(Calendar.YEAR);
 		String monthPath = yearPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.MONTH)+1);
 		String datePath = monthPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.DATE));
 		
@@ -55,7 +55,7 @@ public class UploadFileUtilsV1 {
         return iconName.replace(File.separatorChar, '/');
 	}
 	
-	public static void delteFile(String uploadPath, String fi_name) {
+	public static void deleteFile(String uploadPath, String fi_name) {
 		fi_name = fi_name.replace('/', File.separatorChar);
 		File file = new File(uploadPath + fi_name);
 		

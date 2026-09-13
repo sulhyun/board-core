@@ -11,32 +11,24 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadFileUtilsV2 {
 	
 	public static String uploadFile(String uploadPath, MultipartFile file) throws IOException {
-        if (file == null || file.isEmpty()) {
-            return null;
-        }
+		UUID uid = UUID.randomUUID();
+		String originalName = file.getOriginalFilename();			
+		
+		String savedName = uid.toString() + "_" + originalName;
+        String savedPath = calcPath(uploadPath);
 
-        String originalName = file.getOriginalFilename();
-        String savedName = UUID.randomUUID().toString() + "_" + originalName;
-        
-        // 날짜별 경로 계산 (예: /2026/09/11)
-        String datePath = calcPath(uploadPath);
-
-        // 저장할 실제 파일 객체 생성
-        File target = new File(uploadPath + datePath, savedName);
-
-        // [핵심] transferTo를 사용하여 메모리 낭비 없이 직접 파일 저장
+        File target = new File(uploadPath + savedPath, savedName);
         file.transferTo(target);
+        
+        String uploadFileName = getFileName(savedPath, savedName);
 
-        // DB에 저장할 웹 경로 반환 (/2026/09/11/UUID_파일명)
-        return (datePath + "/" + savedName).replace(File.separatorChar, '/');
+        return uploadFileName;
     }
 
     private static String calcPath(String uploadPath) {
-        // LocalDate를 사용하여 날짜 경로를 간결하게 생성
         LocalDate now = LocalDate.now();
         String datePath = now.format(DateTimeFormatter.ofPattern("/yyyy/MM/dd"));
 
-        // File.mkdirs()를 사용하면 하위 폴더까지 한 번에 생성됨
         File dir = new File(uploadPath + datePath);
         if (!dir.exists()) {
             dir.mkdirs(); 
@@ -44,6 +36,11 @@ public class UploadFileUtilsV2 {
 
         return datePath;
     }
+    
+    private static String getFileName(String path, String fileName) {
+		String filePath = path + File.separator + fileName;
+        return filePath.replace(File.separatorChar, '/');
+	}
 
     public static void deleteFile(String uploadPath, String fileName) {
         if (fileName == null) return;

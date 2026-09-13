@@ -21,6 +21,6 @@ public interface PostDAO {
 
 	boolean addPost(PostVO form);
 
-	boolean addFile(FileVO fileVo);
+	void addFile(FileVO fileVo);
 
 }
